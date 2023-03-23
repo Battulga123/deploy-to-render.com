@@ -1,24 +1,26 @@
 const express = require("express");
-const cors = require("cors");
 const mongoose = require("mongoose");
-const adminRouter = require("./routes/admin-api");
-const router = require("./routes/api");
+const cors = require("cors");
+
+require("dotenv").config();
+
+const PORT = process.env.PORT;
+const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
 
 const app = express();
-const PORT = 8081;
-
-const MONGO_CONNECTION_STRING =
-  "mongodb+srv://Battulga-Ishjamts:Tulgaa3770@tulgaa-mongodb.lsh1crh.mongodb.net/day82";
-
-app.use(express.json());
 app.use(cors());
-app.use("/admin", adminRouter);
-app.use("/router", router);
+app.use(express.json());
+
+app.get("/", (request, response) => {
+  response.json({
+    data: [],
+  });
+});
 
 app.listen(PORT, () => {
   mongoose
     .connect(MONGO_CONNECTION_STRING)
-    .then(() => console.log("Database connected successfully "))
-    .catch((error) => console.log("error"));
-  console.log(`Express is running on listening on http://localhost:${PORT}`);
+    .then(() => console.log("Database connected succesfully"))
+    .catch((error) => console.error(error));
+  console.log(`Express Application is running on http://localhost:${PORT}`);
 });
